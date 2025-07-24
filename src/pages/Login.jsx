@@ -4,6 +4,10 @@ import { useNavigate } from "react-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom"; 
 
+// sign-in with google
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import googleLogo from "../../public/google.png";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +22,18 @@ function Login() {
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error.message);
+    }
+  }
+
+  async function handleGoogleLogin() {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google sign-in successful:", result.user);
+      navigate("/");
+    } catch (error) {
+      console.error("Google login failed:", error.message);
     }
   }
 
@@ -61,6 +77,17 @@ function Login() {
             Login
           </button>
         </form>
+
+        <div className="flex items-center justify-center mt-4">
+          <button
+            onClick={handleGoogleLogin}
+            type="button"
+            className="flex items-center gap-2 border border-gray-300 rounded-lg px-4 py-2 w-full justify-center hover:bg-gray-100 transition"
+          >
+            <img src={googleLogo} alt="Google logo" className="w-5 h-5" />
+            <span className="text-sm font-medium text-gray-700">Login with Google</span>
+          </button>
+        </div>
 
         <p className="mt-6 text-sm text-center text-gray-600">
           Don't have an account?{" "}
