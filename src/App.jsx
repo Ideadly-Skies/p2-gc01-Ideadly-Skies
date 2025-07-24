@@ -6,6 +6,9 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
 
+// CRUD Pages
+import EditProductPage from './pages/EditProductPage'
+
 // create routes
 const router = createBrowserRouter([
   {
@@ -15,6 +18,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />   
+      },
+      {
+        index: true,
+        path: "products/edit/:id",
+        element: <EditProductPage/> 
       }
     ],
   },

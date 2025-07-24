@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../redux/features/products/productSlice";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products, isLoading, error } = useSelector((state) => state.product);
 
   useEffect(() => {
@@ -26,7 +28,8 @@ function Home() {
         {products.map((product) => (
           <div
             key={product.id}
-            className="bg-white rounded-lg shadow hover:shadow-lg border border-gray-200 transition duration-300"
+            onClick={() => navigate(`/products/edit/${product.id}`)}
+            className="cursor-pointer bg-white rounded-lg shadow hover:shadow-lg border border-gray-200 transition duration-300"
           >
             <img
               src={product.imageUrl}
