@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { db } from "../../../configs/firebase";
-import { updateDoc } from 'firebase/firestore'
+import { updateDoc, deleteDoc } from 'firebase/firestore'
 import { doc } from 'firebase/firestore'
 import { getDocs, collection } from 'firebase/firestore'
 
@@ -62,6 +62,18 @@ export const editProductById = (product) => async (dispatch) => {
         })
         dispatch(fetchProducts())
         console.log("Successfully edit product with id ", product.id);
+    } catch (error) {
+        dispatch(setError(error));
+    } finally {
+        dispatch(setLoading(false));
+    }
+}
+
+export const deleteProduct = (idProduct) => async (dispatch) => {
+    dispatch(setLoading(true)); 
+    try {
+        await deleteDoc(doc(db, "products", idProduct));
+        dispatch(fetchProducts());
     } catch (error) {
         dispatch(setError(error));
     } finally {

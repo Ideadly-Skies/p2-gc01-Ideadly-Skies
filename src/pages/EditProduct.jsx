@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { editProductById } from "../redux/features/products/productSlice";
 
-export default function EditProductPage() {
+export default function EditProduct() {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [price, setPrice] = useState(0);
