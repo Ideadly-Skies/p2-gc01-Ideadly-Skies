@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 // sign-in with google
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import googleLogo from "../../public/google.png";
+import googleLogo from "../assets/google.png";
 
 function Login() {
   const [email, setEmail] = useState("");
