@@ -4,6 +4,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../configs/firebase";
 import { FaBars, FaSearch, FaUser, FaDesktop } from "react-icons/fa";
 import Footer from "../components/Footer";
+import Swal from "sweetalert2";
 
 import enterKomputerLogo from "../assets/enterkomputer-logo.png"
 
@@ -15,6 +16,10 @@ function MainLayout() {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log(currentUser);
             if (!currentUser) {
+                Swal.fire({
+                    icon: "error",
+                    text: "You need to log-in first!",
+                });
                 navigate("/auth/login");
             } else {
                 setUser(currentUser);

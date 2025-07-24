@@ -6,6 +6,7 @@ import { FaBars, FaUser } from "react-icons/fa";
 import Footer from "../components/Footer";
 
 import enterKomputerLogo from "../assets/enterkomputer-logo.png"
+import Swal from "sweetalert2";
 
 function AdminLayout() {
     const navigate = useNavigate();
@@ -15,6 +16,10 @@ function AdminLayout() {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                Swal.fire({
+                    icon: "error",
+                    text: `You're already logged in as ${user.email}`,
+                });
                 navigate("/");
             }
         });
