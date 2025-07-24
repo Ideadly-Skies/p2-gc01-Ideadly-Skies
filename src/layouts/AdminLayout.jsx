@@ -5,6 +5,8 @@ import { auth } from "../configs/firebase";
 import { FaBars, FaUser } from "react-icons/fa";
 import Footer from "../components/Footer";
 
+import enterKomputerLogo from "../assets/enterkomputer-logo.png"
+
 function AdminLayout() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,7 +32,7 @@ function AdminLayout() {
                     <div className="flex items-center gap-3 flex-shrink-0">
                         <FaBars className="text-green-600 text-2xl cursor-pointer" />
                         <img
-                            src="https://enterkomputer.com/assets/img/logo/enterkomputer-logo.png?V1.1.5"
+                            src={enterKomputerLogo}
                             alt="EnterKomputer Logo"
                             className="h-10 object-contain"
                         />

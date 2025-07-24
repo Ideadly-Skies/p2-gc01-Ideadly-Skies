@@ -1,32 +1,26 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../configs/firebase";
-import { db } from "../configs/firebase";
+import { auth, db } from "../configs/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import ekLogo from "../assets/enterkomputer.png";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [agree, setAgree] = useState(false);
   const navigate = useNavigate();
 
   async function handleRegister(e) {
     e.preventDefault();
-    if (!agree) return alert("You must agree to the Terms & Conditions.");
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Update the display name in Firebase Auth
-      await updateProfile(userCredential.user, {
-        displayName: name,
-      });
+      await updateProfile(userCredential.user, { displayName: name });
 
-      // Save extra fields in Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
         name,
         email,
@@ -36,109 +30,72 @@ export default function Register() {
 
       navigate("/");
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(`${errorCode} - ${errorMessage}`);
+      console.error(`${error.code} - ${error.message}`);
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-green-400 via-blue-500 to-purple-600 flex items-center justify-center px-4">
-      <div className="bg-white p-10 rounded-xl shadow-xl w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">📝 Create Account</h1>
-        <form onSubmit={handleRegister} className="space-y-6">
-          {/* Name */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
+      <div className="bg-white shadow-lg rounded-lg w-full max-w-xl p-10 border-t-[6px] border-green-600">
+        <div className="flex justify-center mb-4">
+          <img src={ekLogo} alt="EK Logo" className="h-20" />
+        </div>
+        <h2 className="text-center font-semibold text-gray-800 mb-6">
+          Buat akun Enterkomputer
+        </h2>
 
-          {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Phone */}
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Terms and Conditions */}
-          <div className="flex items-start space-x-2">
-            <input
-              id="terms"
-              type="checkbox"
-              checked={agree}
-              onChange={(e) => setAgree(e.target.checked)}
-              className="mt-1"
-              required
-            />
-            <label htmlFor="terms" className="text-sm text-gray-700">
-              I agree to the{" "}
-              <a href="#" className="text-blue-600 hover:underline">Terms & Conditions</a>
-            </label>
-          </div>
+        <form onSubmit={handleRegister} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Nama Pengguna"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          />
+          <input
+            type="tel"
+            placeholder="No Handphone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          />
+          <input
+            type="password"
+            placeholder="Ulangi Password"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          />
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 font-semibold rounded-md transition"
           >
-            Register
+            Daftar
           </button>
         </form>
 
-        {/* link to login */}
         <p className="mt-6 text-sm text-center text-gray-600">
-          Already have an account?{" "}
-          <Link
-            to="/auth/login"
-            className="text-blue-600 hover:underline font-medium"
-          >
-            Login here
+          sudah punya akun?{" "}
+          <Link to="/auth/login" className="text-blue-600 hover:underline font-medium">
+            Masuk di sini
           </Link>
         </p>
       </div>
