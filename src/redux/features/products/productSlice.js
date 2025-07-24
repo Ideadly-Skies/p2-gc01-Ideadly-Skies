@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { db } from "../../../configs/firebase";
-import { updateDoc, deleteDoc } from 'firebase/firestore'
+import { addDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { doc } from 'firebase/firestore'
 import { getDocs, collection } from 'firebase/firestore'
 
@@ -32,6 +32,22 @@ export const productSlice = createSlice({
 })
 
 export const { setProducts, setProduct, setLoading, setError } = productSlice.actions
+
+export const addProduct = (product) => async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+        await addDoc(collection(db, "products"), {
+            name: product.name,
+            imageUrl: product.imageUrl,
+            price: product.price
+        });
+        dispatch(fetchProducts());
+    } catch (error) {
+        dispatch(setError(error));
+    } finally {
+        dispatch(setLoading(false));
+    }
+}
 
 export const fetchProducts = () => async (dispatch) => {
     dispatch(setLoading(true));

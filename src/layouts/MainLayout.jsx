@@ -4,6 +4,8 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../configs/firebase";
 import { FaBars, FaSearch, FaUser, FaDesktop } from "react-icons/fa";
 
+import enterKomputerLogo from "../assets/enterkomputer-logo.png"
+
 function MainLayout() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
@@ -38,7 +40,7 @@ function MainLayout() {
                     <div className="flex items-center gap-3 flex-shrink-0">
                         <FaBars className="text-green-600 text-2xl cursor-pointer" />
                         <img
-                            src="https://enterkomputer.com/assets/img/logo/enterkomputer-logo.png?V1.1.5"
+                            src={enterKomputerLogo}
                             alt="EnterKomputer Logo"
                             className="h-10 object-contain"
                         />
