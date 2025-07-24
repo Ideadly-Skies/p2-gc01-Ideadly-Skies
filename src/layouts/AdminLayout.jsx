@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation } from "react-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../configs/firebase";
 import { FaBars, FaUser } from "react-icons/fa";
+import Footer from "../components/Footer";
 
 function AdminLayout() {
     const navigate = useNavigate();
@@ -49,6 +50,8 @@ function AdminLayout() {
             </header>
 
             <Outlet />
+
+            <Footer />
         </>
     );
 }

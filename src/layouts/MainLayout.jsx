@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../configs/firebase";
 import { FaBars, FaSearch, FaUser, FaDesktop } from "react-icons/fa";
+import Footer from "../components/Footer";
 
 import enterKomputerLogo from "../assets/enterkomputer-logo.png"
 
@@ -90,6 +91,8 @@ function MainLayout() {
             </header>
  
             <Outlet />
+
+            <Footer/>
         </>
     );
 }
