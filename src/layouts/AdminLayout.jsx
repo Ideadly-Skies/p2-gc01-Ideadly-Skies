@@ -40,10 +40,10 @@ function AdminLayout() {
 
                     {/* Right: User Icon + Register/Login Toggle */}
                     <div className="flex flex-col items-center text-sm">
-                        <FaUser className="text-pink-800 text-2xl mb-1" />
+                        <FaUser className="text-emerald-600 text-2xl mb-1" />
                         <button
                             onClick={handleNavigate}
-                            className="text-[13px] font-medium text-blue-600 hover:text-blue-800 transition"
+                            className="text-[13px] font-medium text-green-600 hover:text-green-800 transition"
                         >
                             {isLoginPage ? "Register" : "Login"}
                         </button>

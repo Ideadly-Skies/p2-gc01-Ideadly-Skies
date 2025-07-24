@@ -118,7 +118,7 @@ export default function Footer() {
       </div>
 
       <div className="text-center text-xs text-gray-500 py-4 border-t">
-        © 2009–2025, CV. TEMAN BAIK (<a className="text-black" href="https://enterkomputer.com">Enterkomputer.com</a>). All Rights Reserved.
+        © 2009-2025, CV. TEMAN BAIK (<a className="text-black" href="https://enterkomputer.com">Enterkomputer.com</a>). All Rights Reserved.
       </div>
     </footer>
   );
