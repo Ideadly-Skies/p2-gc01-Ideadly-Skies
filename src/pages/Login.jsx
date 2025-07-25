@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 import { Link } from "react-router-dom";
 import googleLogo from "../assets/google.png";
 import ekLogo from "../assets/enterkomputer.png"; 
+import Swal from "sweetalert2";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -15,10 +16,16 @@ function Login() {
     e.preventDefault();
     try {
       const userLoggedIn = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userLoggedIn);
       navigate("/");
+      Swal.fire({
+        icon: "success", 
+        text: `user ${userLoggedIn.user.email} successfully logged in!`
+      });
     } catch (error) {
-      console.error("Login failed:", error.message);
+      Swal.fire({
+        icon: "error",
+        text: `${error.code} - ${error.message}`,
+      });
     }
   }
 
@@ -26,10 +33,16 @@ function Login() {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("Google sign-in successful:", result.user);
       navigate("/");
+      Swal.fire({
+        icon: "success", 
+        text: `user ${result.user.email} successfully logged in!` 
+      });
     } catch (error) {
-      console.error("Google login failed:", error.message);
+      Swal.fire({
+        icon: "error",
+        text: `${error.code} - ${error.message}`,
+      });
     }
   }
 

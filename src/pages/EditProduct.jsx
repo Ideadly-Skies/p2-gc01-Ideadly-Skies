@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { editProductById } from "../redux/features/products/productSlice";
+import Swal from "sweetalert2";
 
 export default function EditProduct() {
   const [name, setName] = useState("");
@@ -19,8 +20,15 @@ export default function EditProduct() {
     try {
       dispatch(editProductById({ id, name, imageUrl, price }));
       navigate("/");
+      Swal.fire({
+        icon: "success",
+        text: `product ${id} have been successfully edited.`
+      }); 
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        text: `${error.code} - ${error.message}`,
+      });
     }
   }
 
@@ -36,7 +44,10 @@ export default function EditProduct() {
           setPrice(product.price);
         }
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: "error",
+          text: `${error.code} - ${error.message}`,
+        });
       }
     }
     getProductById(id);

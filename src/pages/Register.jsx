@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import ekLogo from "../assets/enterkomputer.png";
+import Swal from "sweetalert2";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -30,7 +31,10 @@ export default function Register() {
 
       navigate("/");
     } catch (error) {
-      console.error(`${error.code} - ${error.message}`);
+      Swal.fire({
+        icon: "error",
+        text: `${error.code} - ${error.message}`,
+      });
     }
   }
 

@@ -14,7 +14,6 @@ function MainLayout() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            console.log(currentUser);
             if (!currentUser) {
                 Swal.fire({
                     icon: "error",
@@ -33,8 +32,15 @@ function MainLayout() {
         try {
             await signOut(auth);
             navigate("/auth/login");
+            Swal.fire({
+                icon: "success",
+                text: "logout successful.",
+            });
         } catch (err) {
-            console.error("Sign out failed:", err);
+            Swal.fire({
+                icon: "error",
+                text: `${err.code} - ${err.message}`,
+            });
         }
     };
 

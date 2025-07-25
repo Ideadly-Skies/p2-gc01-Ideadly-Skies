@@ -14,7 +14,7 @@ function AdminLayout() {
     const isLoginPage = location.pathname === "/auth/login";
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 Swal.fire({
                     icon: "error",
@@ -23,6 +23,8 @@ function AdminLayout() {
                 navigate("/");
             }
         });
+
+        return () => unsubscribe()
     }, []);
 
     const handleNavigate = () => {

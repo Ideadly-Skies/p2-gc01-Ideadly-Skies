@@ -18,15 +18,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />   
+        element: <Home/>  
       },
       {
-        index: true,
         path: "products/edit/:id",
         element: <EditProduct/> 
       },
       {
-        index: true,
         path: "products/add",
         element: <AddProduct/> 
       }
@@ -37,7 +35,6 @@ const router = createBrowserRouter([
     element: <AdminLayout />, 
     children: [
       {
-        index: true,
         path: "login",
         // displayed in outlet
         element: <Login /> 

@@ -36,7 +36,10 @@ function Home() {
                 }
             });
         } catch (error) {
-            console.log(error)
+            Swal.fire({
+                icon: "error",
+                text: `${error.code} - ${error.message}`,
+            });
         }
     }
   

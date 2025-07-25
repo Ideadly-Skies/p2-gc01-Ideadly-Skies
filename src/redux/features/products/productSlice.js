@@ -77,7 +77,6 @@ export const editProductById = (product) => async (dispatch) => {
             price: product.price
         })
         dispatch(fetchProducts())
-        console.log("Successfully edit product with id ", product.id);
     } catch (error) {
         dispatch(setError(error));
     } finally {

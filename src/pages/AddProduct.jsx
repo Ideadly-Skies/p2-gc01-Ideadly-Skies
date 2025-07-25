@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/features/products/productSlice";
+import Swal from "sweetalert2";
 
 export default function AddProduct() {
   const [name, setName] = useState("");
@@ -15,10 +16,16 @@ export default function AddProduct() {
     try {
       const product = { name, imageUrl, price };
       dispatch(addProduct(product));
-      console.log("Successfully created a product ", name);
       navigate("/");
+      Swal.fire({
+        text: `product ${name} have been successfully added.`,
+        icon: "success"
+      });
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        text: `${error.code} - ${error.message}`,
+      });
     }
   }
 
