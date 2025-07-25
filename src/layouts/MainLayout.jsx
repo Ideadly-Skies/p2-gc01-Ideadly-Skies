@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../configs/firebase";
-import { FaBars, FaSearch, FaUser, FaDesktop } from "react-icons/fa";
+import { FaBars, FaSearch, FaUser, FaDesktop, FaPlus } from "react-icons/fa";
 import Footer from "../components/Footer";
 import Swal from "sweetalert2";
 
@@ -11,6 +11,7 @@ import enterKomputerLogo from "../assets/enterkomputer-logo.png"
 function MainLayout() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [showDropdown, setShowDropdown] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -26,6 +27,16 @@ function MainLayout() {
         });
 
         return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        const closeDropdown = (e) => {
+            if (!e.target.closest(".dropdown-container")) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener("mousedown", closeDropdown);
+        return () => document.removeEventListener("mousedown", closeDropdown);
     }, []);
 
     const handleSignOut = async () => {
@@ -49,12 +60,35 @@ function MainLayout() {
             <header className="bg-white shadow-md py-4 px-4">
                 <div className="max-w-screen-xl mx-auto w-full flex items-center justify-around gap-x-6">
                     {/* Left: Hamburger + Logo */}
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                        <FaBars className="text-green-600 text-2xl cursor-pointer" />
+                    <div className="relative flex items-center gap-3 flex-shrink-0 dropdown-container">
+                        <button
+                            onClick={() => setShowDropdown(prev => !prev)}
+                            className="p-2 rounded-md hover:bg-green-100 transition"
+                        >
+                            <FaBars className="text-green-600 text-xl" />
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {showDropdown && (
+                            <div className="absolute left-0 top-12 w-44 bg-white shadow-lg rounded-lg z-50 animate-fade-in">
+                                <button
+                                    onClick={() => {
+                                        navigate("/products/add");
+                                        setShowDropdown(false);
+                                    }}
+                                    className="flex items-center gap-2 w-full px-4 py-2 text-sm text-green-700 hover:bg-green-100 transition cursor-pointer"
+                                >
+                                    <FaPlus className="text-green-600" />
+                                    Add Product
+                                </button>
+                            </div>
+                        )}
+
                         <img
                             src={enterKomputerLogo}
                             alt="EnterKomputer Logo"
-                            className="h-10 object-contain"
+                            className="h-10 object-contain cursor-pointer hover:opacity-80 transition"
+                            onClick={() => {navigate("/")}}
                         />
                     </div>
 
@@ -100,8 +134,10 @@ function MainLayout() {
                     </div>
                 </div>
             </header>
- 
-            <Outlet />
+
+            <main className="py-8 px-4 bg-gray-100 min-h-[calc(100vh-160px)]">
+                <Outlet />
+            </main>
 
             <Footer/>
         </>

@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.sidebar-transition {
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+}
