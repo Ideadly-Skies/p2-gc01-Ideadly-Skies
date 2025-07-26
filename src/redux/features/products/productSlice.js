@@ -67,6 +67,33 @@ export const fetchProducts = () => async (dispatch) => {
     }
 }
 
+export const fetchProductById = (id) => async (dispatch) => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+    try {
+        const docRef = doc(db, "products", id)
+        const docSnap = await getDoc(docRef)
+        // console.log(docSnap.data())
+        if (docSnap.exists){
+            const product = {
+                name: docSnap.data().name,
+                imageUrl: docSnap.data().imageUrl,
+                price: docSnap.data().price,
+            }
+            dispatch(setProduct(product))
+            
+            // setName(docSnap.data().name)
+            // setImageUrl(docSnap.data().imageUrl)
+            // setPrice(docSnap.data().price)
+        }
+
+    } catch (error) {
+        dispatch(setError(error));
+    } finally {
+        dispatch(setLoading(false));
+    }
+}
+
 export const editProductById = (product) => async (dispatch) => {
     dispatch(setLoading(true));  
     try {

@@ -2,11 +2,15 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../configs/firebase";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
-import { editProductById } from "../redux/features/products/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductById, editProductById, setProduct } from "../redux/features/products/productSlice";
 import Swal from "sweetalert2";
 
+import { FileUploaderRegular } from "@uploadcare/react-uploader";
+import "@uploadcare/react-uploader/core.css";
+
 export default function EditProduct() {
+  const { product } = useSelector((state) => state.product);
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [price, setPrice] = useState(0);
@@ -19,11 +23,11 @@ export default function EditProduct() {
     e.preventDefault();
     try {
       dispatch(editProductById({ id, name, imageUrl, price }));
-      navigate("/");
+      navigate('/');
       Swal.fire({
         icon: "success",
         text: `product ${id} have been successfully edited.`
-      }); 
+      });
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -31,6 +35,21 @@ export default function EditProduct() {
       });
     }
   }
+
+  useEffect(() => {
+    dispatch(fetchProductById(id));
+    return () => {
+      dispatch(setProduct(null));
+    };
+  }, []);
+
+  useEffect(() => {
+    if (product) {
+      setName(product.name);
+      setImageUrl(product.imageUrl);
+      setPrice(product.price);
+    }
+  }, [product]);
 
   useEffect(() => {
     async function getProductById(id) {
@@ -98,7 +117,16 @@ export default function EditProduct() {
                 onChange={(e) => setImageUrl(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
+                disabled={true} 
               />
+              <div className="bg-white rounded-lg px-4 py-3 transition w-full text-center">
+                <FileUploaderRegular
+                  pubkey="6a09efb59d48bf9b0f4d"
+                  onModalOpen={() => console.log("modal-open")}
+                  onFileUploadSuccess={(result) => setImageUrl(result.cdnUrl)}
+                  onDoneClick={(result) => console.log("from onDoneClick", result)}
+                />
+              </div>
             </div>
 
             <div>
