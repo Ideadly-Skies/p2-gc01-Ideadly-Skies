@@ -9,6 +9,7 @@ import Home from './pages/Home'
 // CRUD Pages
 import AddProduct from './pages/AddProduct'
 import EditProduct from './pages/EditProduct'
+import ResetPassword from './pages/ResetPassword'
 
 // create routes
 const router = createBrowserRouter([
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         path: "register",
         // displayed in outlet
         element: <Register /> 
+      },
+      {
+        path: "reset",
+        element: <ResetPassword />
       }
     ],
   },

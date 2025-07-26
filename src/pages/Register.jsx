@@ -30,7 +30,13 @@ export default function Register() {
       });
 
       navigate("/");
-    } catch (error) {
+
+      Swal.fire({
+        icon: "success", 
+        text: `user ${email} successfully registered!`
+      });
+    } 
+    catch (error) {
       Swal.fire({
         icon: "error",
         text: `${error.code} - ${error.message}`,
