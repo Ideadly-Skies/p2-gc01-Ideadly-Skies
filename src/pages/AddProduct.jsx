@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/features/products/productSlice";
 import Swal from "sweetalert2";
+import UploadWidget from "../components/UploadWidget";
 
 export default function AddProduct() {
   const [name, setName] = useState("");
@@ -53,9 +54,11 @@ export default function AddProduct() {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="e.g. https://..."
+              placeholder="use the widget below to upload image..."
               required
+              disabled={true}
             />
+            <UploadWidget setImageUrl={setImageUrl}/>
           </div>
 
           <div>
